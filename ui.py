@@ -1,4 +1,4 @@
-from Seminar_8.function import delete, add, change, printdata, clear, loading, check_numbers, terminate
+from function import delete, add, change, printdata, clear, loading, check_numbers, terminate
 
 
 def interface():
