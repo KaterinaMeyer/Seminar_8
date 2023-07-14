@@ -48,12 +48,14 @@ def add():
           '|')
     name = input("|\n| Введите имя: ")
     surname = input("|\n| Введите фамилию: ")
-    phone = input("|\n| Введите номер телефона: ")  # При необходимости можно добавить проверку на телефон
+    phone = input("|\n| Введите номер телефона: ")  # При необходимости можно добавить проверку на телефон с помощью регулярных выражений
     city = input("|\n| Введите город: ")
     with open(f'db/data{answer}.txt', 'r', encoding='utf-8') as file:
         data = file.readlines()
-        number = int(data[-1].split(';')[0])
-
+        if data:
+            number = int(data[-1].split(';')[0])
+        else:
+            number = 0
     with open(f'db/data{answer}.txt', 'w', encoding='utf-8') as file:
         file.writelines(data + [f'{number + 1};{name};{surname};{phone};{city}'])
 
@@ -130,7 +132,7 @@ def change():
         city = data.split(';')[4]
 
     with open(f'db/data{answer}.txt', 'w', encoding='utf-8') as file:
-        file.writelines(database[:number_row] + [f"{data.split(';')[0]};{name};{surname};{phone};{city}"] +
+        file.writelines(database[:number_row - 1] + [f"{data.split(';')[0]};{name};{surname};{phone};{city}"] +
                         database[number_row + 1:])
 
     print('___________________________\n'
@@ -207,7 +209,7 @@ def printdata():
 def check_numbers(answer):
     while answer < 1 or answer > 6:
         print("ERROR! Ошибка, скорее всего, Вы указали неправильное число.\n"
-              "Введите значение от 1 до 7.\n"
+              "Введите значение от 1 до 6.\n"
               "Выберите действие:\n"
               "___________________________\n"
               "1. Удалить запись.\n"
