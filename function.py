@@ -1,3 +1,12 @@
+separator = ['.', ';', ',', '-']
+
+
+def data_remake(data):
+    global separator
+    index_separator = data.split(separator[[i in data for i in separator].index(True)])
+    return index_separator
+
+
 def delete():
     printdata()
     answer = int(input('___________________________\n'
@@ -10,7 +19,7 @@ def delete():
 
     with open(f'db/data{answer}.txt', 'r', encoding='utf-8') as file:
         data = file.readlines()
-        number = int(data[-1].split(';')[0])
+        number = int(data_remake(data[-1])[0])
 
     number_row = int(input("___________________________\n"
                            f"Отлично! Будем удалять данные из {answer}-файла.\n"
@@ -24,7 +33,7 @@ def delete():
     count = 1
     result = list()
     for i in range(number - 1):
-        row = f'{count};' + data[i][data[i].index(';') + 1:]
+        row = f'{count};' + data[i][data[i].index(separator[[i in data for i in separator].index(True)]) + 1:]
         count += 1
         result.append(row)
     with open(f'db/data{answer}.txt', 'w', encoding='utf-8') as file:
@@ -34,7 +43,11 @@ def delete():
           'Удаление успешно завершено!')
 
 
+razdelitel = ''
+
+
 def add():
+    global razdelitel
     printdata()
     answer = int(input('___________________________\n'
                        'Выберите файла, в который Вы хотите добавить строку: '))
@@ -50,14 +63,15 @@ def add():
     surname = input("|\n| Введите фамилию: ")
     phone = input("|\n| Введите номер телефона: ")  # При необходимости можно добавить проверку на телефон с помощью регулярных выражений
     city = input("|\n| Введите город: ")
+    razdelitel = input("|\n| Введите разделитель(  - . ; ,  ): ")
     with open(f'db/data{answer}.txt', 'r', encoding='utf-8') as file:
         data = file.readlines()
         if data:
-            number = int(data[-1].split(';')[0])
+            number = int(data_remake(data[-1])[0])
         else:
             number = 0
     with open(f'db/data{answer}.txt', 'w', encoding='utf-8') as file:
-        file.writelines(data + [f'{number + 1};{name};{surname};{phone};{city}'])
+        file.writelines(data + [f'{number + 1}{razdelitel}{name}{razdelitel}{surname}{razdelitel}{phone}{razdelitel}{city}\n'])
 
     print('___________________________\n'
           'Данные успешно записаны!')
@@ -74,7 +88,7 @@ def change():
         loading()
     with open(f'db/data{answer}.txt', 'r', encoding='utf-8') as file:
         data = file.readlines()
-        number = int(data[-1].split(';')[0])
+        number = int(data_remake(data[-1])[0])
 
     number_row = int(input("___________________________\n"
                            f"Отлично! Будем изменять данные из {answer}-файла.\n"
@@ -123,16 +137,17 @@ def change():
         data = database[number_row - 1]
     print(data)
     if name is None:
-        name = data.split(';')[1]
+        name = data.split(separator[[i in data for i in separator].index(True)])[1]
     if surname is None:
-        surname = data.split(';')[2]
+        surname = data.split(separator[[i in data for i in separator].index(True)])[2]
     if phone is None:
-        phone = data.split(';')[3]
+        phone = data.split(separator[[i in data for i in separator].index(True)])[3]
     if city is None:
-        city = data.split(';')[4]
+        city = data.split(separator[[i in data for i in separator].index(True)])[4]
 
     with open(f'db/data{answer}.txt', 'w', encoding='utf-8') as file:
-        file.writelines(database[:number_row - 1] + [f"{data.split(';')[0]};{name};{surname};{phone};{city}"] +
+        file.writelines(database[:number_row - 1] +
+                        [f"{data.split(separator[[i in data for i in separator].index(True)])[0]}{razdelitel}{name}{razdelitel}{surname}{razdelitel}{phone}{razdelitel}{city}"] +
                         database[number_row + 1:])
 
     print('___________________________\n'
@@ -184,7 +199,7 @@ def printdata():
         with open(f'db/data{i}.txt', 'r', encoding='utf-8') as file:
             print("___________________________\n"
                   f"Вывожу данные из {i}-го файла:")
-            data = [[j if '\n' not in j else j.split('\n')[0] for j in i.split(';')] for i in file.readlines()]
+            data = [[j if '\n' not in j else j.split('\n')[0] for j in i.split(separator[[k in i for k in separator].index(True)])] for i in file.readlines()]
             if len(data) == 0:
                 print("Файл пустой!")
             else:
