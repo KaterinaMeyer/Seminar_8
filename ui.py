@@ -1,4 +1,4 @@
-from function import delete, add, change, printdata, clear, loading, check_numbers, terminate
+from function import delete, add, change, printdata, clear, loading, check_numbers, terminate, transfer_data
 
 
 def interface():
@@ -10,7 +10,8 @@ def interface():
           "3. Изменить запись.\n"
           "4. Вывести данные.\n"
           "5. Очистить файл.\n"
-          "6. Выход.")
+          "6. Выход.\n"
+          "7. Копировать файл.")
     answer = int(input("___________________________\nВведите номер действия: "))
     loading()
     answer = check_numbers(answer)
@@ -25,6 +26,8 @@ def interface():
             printdata()
         elif answer == 5:
             clear()
+        elif answer == 7:
+            transfer_data()
         print("Выберите действие:\n"
               "___________________________\n"
               "1. Удалить запись.\n"
@@ -32,7 +35,8 @@ def interface():
               "3. Изменить запись.\n"
               "4. Вывести данные.\n"
               "5. Очистить файл.\n"
-              "6. Выход.")
+              "6. Выход.\n"
+              "7. Копировать файл.")
         answer = int(input("___________________________\nВведите номер действия: "))
         answer = check_numbers(answer)
 

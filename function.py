@@ -222,9 +222,9 @@ def printdata():
 
 
 def check_numbers(answer):
-    while answer < 1 or answer > 6:
+    while answer < 1 or answer > 7:
         print("ERROR! Ошибка, скорее всего, Вы указали неправильное число.\n"
-              "Введите значение от 1 до 6.\n"
+              "Введите значение от 1 до 7.\n"
               "Выберите действие:\n"
               "___________________________\n"
               "1. Удалить запись.\n"
@@ -232,7 +232,27 @@ def check_numbers(answer):
               "3. Изменить запись.\n"
               "4. Вывести данные.\n"
               "5. Очистить файл.\n"
-              "6. Выход.")
+              "6. Выход.\n"
+              "7. Копирование файла.")
         answer = int(input("___________________________\nВведите номер действия: "))
         loading()
     return answer
+def transfer_data():
+    printdata()
+    source_file = int(input('Выберите из какого файла Вы хотите перенести данные: '))
+    while source_file < 1 or source_file > 3:
+        source_file = int(input('ERROR! Ошибка, скорее всего, Вы указали неправильное число. Введите номер файла от 1 до 3: '))
+        loading()
+
+    target_file = int(input('Выберите в какой файл Вы хотите перенести данные: '))
+    while target_file < 1 or target_file > 3:
+        target_file = int(input('ERROR! Ошибка, скорее всего, Вы указали неправильное число. Введите номер файла от 1 до 3: '))
+        loading()
+
+    with open(f'db/data{source_file}.txt', 'r', encoding='utf-8') as file:
+        data = file.readlines()
+
+    with open(f'db/data{target_file}.txt', 'a', encoding='utf-8') as file:
+        file.writelines(data)
+
+    print('Перенос данных успешно завершен!')
